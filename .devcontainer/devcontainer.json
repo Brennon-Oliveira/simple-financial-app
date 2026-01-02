@@ -4,7 +4,7 @@
   "name": "Simple Financial App",
   "dockerComposeFile": "compose.yml",
   "service": "sfa.app",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/workspaces/sfa",
   "features": {
     "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {
       "setLocale": true,
@@ -31,8 +31,10 @@
     }
   },
   "forwardPorts": [
+    3000,
     5432,
-    3000
+    1025,
+    8025
   ],
   "postCreateCommand": "find . -type d -name bin -exec rm -rf {} + && find . -type d -name obj -exec rm -rf {} + && dotnet clean && dotnet restore",
   "remoteUser": "root"

@@ -5,8 +5,8 @@ services:
       dockerfile: dockerfile
     
     volumes:
-      - ../..:workspaces:cached
-      - node_modules-data:/workspaces/node_modules
+      - ../:/workspaces/sfa:cached
+      - node_modules-data:/workspaces/sfa/node_modules
 
     env_file: ../.env
 
@@ -21,7 +21,7 @@ services:
     image: postgres:14.3
     restart: unless-stopped
     volumes: 
-      - postgres-data:/var/lib/postgresql/data
+      - database-data:/var/lib/postgresql/data
 
     env_file: ../.env
 
@@ -40,7 +40,7 @@ services:
 
 volumes:
   node_modules-data:
-  postgresq-data:
+  database-data:
 
 networks:
   sfa-net:
