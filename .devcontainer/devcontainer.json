@@ -1,0 +1,39 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/dotnet-postgres
+{
+  "name": "Simple Financial App",
+  "dockerComposeFile": "compose.yml",
+  "service": "sfa.app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {
+      "setLocale": true,
+      "theme": "robbyrussell",
+      "plugins": "git docker",
+      "desiredLocale": "en_US.UTF-8 UTF-8"
+    },
+    "ghcr.io/jsburckhardt/devcontainer-features/bat:1": {},
+    "ghcr.io/thediveo/devcontainer-features/lazygit:0": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "aaron-bond.better-comments",
+        "ms-vscode.vscode-typescript-next",
+        "pkief.material-icon-theme",
+        "christian-kohler.path-intellisense",
+        "bradlc.vscode-tailwindcss",
+        "gruntfuggly.todo-tree",
+        "ms-vsliveshare.vsliveshare",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "forwardPorts": [
+    5432,
+    3000
+  ],
+  "postCreateCommand": "find . -type d -name bin -exec rm -rf {} + && find . -type d -name obj -exec rm -rf {} + && dotnet clean && dotnet restore",
+  "remoteUser": "root"
+}
