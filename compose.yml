@@ -1,29 +1,11 @@
 services:
-  sfa.app:
-    build:
-      context: .
-      dockerfile: dockerfile
-    
-    volumes:
-      - ../:/workspaces:cached
-      - node_modules-data:/workspaces/node_modules
-
-    env_file: ../.env
-
-    networks:
-      - sfa-net
-    
-    command: sleep infinity
-
-    user: root
-
   sfa.db:
     image: postgres:14.3
     restart: unless-stopped
     volumes: 
       - database-data:/var/lib/postgresql/data
 
-    env_file: ../.env
+    env_file: .env
 
     networks:
       - sfa-net

@@ -123,3 +123,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ESTILOS */
+
+html, body {
+  height: 100%;
+}

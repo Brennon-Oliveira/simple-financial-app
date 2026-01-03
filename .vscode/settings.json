@@ -1,0 +1,32 @@
+{
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "editor.linkedEditing": true,
+  "[typescript][javascript][json][css][javascriptreact][typescriptreact][tailwindcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "html.format.wrapAttributesIndentSize": null,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "always",
+    "source.sortImports": "always"
+  },
+  "editor.formatOnSave": true,
+  "editor.rulers": [
+    {
+      "color": "#FF6F98",
+      "column": 80
+    },
+    {
+      "color": "#a00040",
+      "column": 110
+    },
+    {
+      "color": "#d1001c",
+      "column": 130
+    }
+  ]
+}

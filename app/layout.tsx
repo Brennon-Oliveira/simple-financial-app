@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 // @ts-expect-error because ts not recognize the css file
 import "./globals.css";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/ui/app-siderbar";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { AppHeader } from "@/components/ui/app-header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +33,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange>
+          <SidebarProvider className="h-full">
+            <AppSidebar />
+            <main className="w-full flex flex-col bg-background h-full">
+              <AppHeader />
+              <section className="flex-1 overflow-auto px-3 py-2">
+                {children}
+              </section>
+            </main>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
