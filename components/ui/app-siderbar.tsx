@@ -11,6 +11,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import LoadingIndicator from "@/components/ui/loading-indicator";
 import {
   Sidebar,
   SidebarContent,
@@ -29,71 +30,79 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Routes } from "@/utils/routes";
+import { getRoute } from "@/utils/routes-tools";
 import {
   ChartNoAxesCombined,
   ChevronUp,
   HandCoins,
   Handshake,
+  Home,
   LucideIcon,
   User2,
   Wallet,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type MenuItem = {
-  title: string;
-  url: string;
+  route: Routes;
   icon: LucideIcon;
 };
 
 export function AppSidebar() {
   const { open } = useSidebar();
   const { setTheme, theme } = useTheme();
+  const pathname = usePathname();
 
   const finantialControlItems: MenuItem[] = [
     {
-      title: "Meus orçamentos",
-      url: "controle-financeiro/meus-orçamentos",
+      route: "meus-orcamentos",
       icon: Wallet,
     },
   ];
 
   const investmentsItems: MenuItem[] = [
     {
-      title: "Dashboard de investimentos",
-      url: "investimentos/dashboard",
+      route: "dashboard-investimentos",
       icon: ChartNoAxesCombined,
     },
     {
-      title: "Meus aportes",
-      url: "investimentos/meus-aportes",
+      route: "meus-aportes",
       icon: Handshake,
     },
   ];
 
   const simulationsItems: MenuItem[] = [
     {
-      title: "Projeção de rentabilidade",
-      url: "/simuladores/projecao-de-rentabilidade",
+      route: "projecao-rentabilidade",
       icon: HandCoins,
     },
   ];
 
   function AppSidebarItem({ item }: { item: MenuItem }) {
+    const route = getRoute(item.route);
+
     return (
       <SidebarMenuItem>
         <Tooltip>
           <TooltipTrigger asChild>
             <SidebarMenuButton asChild>
-              <Link href={item.url}>
-                <item.icon />
-                <span>{item.title}</span>
+              <Link
+                prefetch="auto"
+                data-active={pathname === route.path}
+                href={route.path}
+              >
+                <LoadingIndicator>
+                  <item.icon />
+                </LoadingIndicator>
+                <span>{route.title}</span>
               </Link>
             </SidebarMenuButton>
           </TooltipTrigger>
           <TooltipContent side="right" hidden={open}>
-            <p>{item.title}</p>
+            <p>{route.title}</p>
           </TooltipContent>
         </Tooltip>
       </SidebarMenuItem>
@@ -111,12 +120,24 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className={open ? "" : "gap-0"}>
         <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {AppSidebarItem({
+                item: {
+                  icon: Home,
+                  route: "home",
+                },
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
           {open && <SidebarGroupLabel>Controle financeiro</SidebarGroupLabel>}
 
           <SidebarGroupContent>
             <SidebarMenu>
               {finantialControlItems.map((item) => (
-                <AppSidebarItem key={item.title} item={item} />
+                <AppSidebarItem key={item.route} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -126,7 +147,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {investmentsItems.map((item) => (
-                <AppSidebarItem key={item.title} item={item} />
+                <AppSidebarItem key={item.route} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -136,7 +157,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {simulationsItems.map((item) => (
-                <AppSidebarItem key={item.title} item={item} />
+                <AppSidebarItem key={item.route} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -147,9 +168,14 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
-                  <User2 /> Brennon Oliveira
-                  <ChevronUp className="ml-auto" />
+                <SidebarMenuButton className="w-full flex justify-center text-nowrap items-center select-none">
+                  <User2 />
+                  {open && (
+                    <>
+                      Brennon Oliveira
+                      <ChevronUp className="ml-auto" />
+                    </>
+                  )}
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
