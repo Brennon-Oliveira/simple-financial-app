@@ -1,17 +1,22 @@
 "use client";
 
-import { projetar } from "@/app/simuladores/projecao-de-rentabilidade/_actions/projetar";
+import {
+  projetar,
+  ProjetarState,
+} from "@/app/simuladores/projecao-de-rentabilidade/_actions/projetar";
 import { FormularioProjecaoRentabilidade } from "@/app/simuladores/projecao-de-rentabilidade/_components/formulario-projecao-rentabilidade";
+import { ResultadoProjecaoRentabilidade } from "@/app/simuladores/projecao-de-rentabilidade/_components/resultado-projecao-rentabilidade";
 import { useActionState } from "react";
 
-type State = { resultado: string | null };
-
-const initialState: State = {
-  resultado: null,
+const initialState: ProjetarState = {
+  result: null,
 };
 
 type Props = {
-  action: (prevState: State, formData: FormData) => Promise<State> | State;
+  action: (
+    prevState: ProjetarState,
+    formData: FormData
+  ) => Promise<ProjetarState> | ProjetarState;
 };
 
 export default function ProjecaoDeRentabilidadePage() {
@@ -20,8 +25,7 @@ export default function ProjecaoDeRentabilidadePage() {
   return (
     <section>
       <FormularioProjecaoRentabilidade projetar={formAction} />
-      <h1>Projeção de retanbilidade</h1>
-      {state.resultado ?? <code>{state.resultado}</code>}
+      {state.result && <ResultadoProjecaoRentabilidade {...state.result} />}
     </section>
   );
 }
