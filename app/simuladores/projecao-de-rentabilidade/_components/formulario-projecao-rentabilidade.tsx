@@ -31,9 +31,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Percent } from "lucide-react";
 import { startTransition } from "react";
 import { useForm } from "react-hook-form";
-import { useHookFormMask } from "use-mask-input";
+import { Options, useHookFormMask } from "use-mask-input";
 
-const CURRENCY_OPTIONS = {
+const CURRENCY_OPTIONS: Options = {
   prefix: "R$ ",
   groupSeparator: ".",
   radixPoint: ",",
@@ -42,8 +42,12 @@ const CURRENCY_OPTIONS = {
   rightAlign: false,
 };
 
-const NUMERIC_OPTIONS = {
+const NUMERIC_OPTIONS: Options = {
   rightAlign: false,
+  groupSeparator: ".",
+  radixPoint: ",",
+  digitsOptional: true,
+  digits: 2,
 };
 
 export function FormularioProjecaoRentabilidade({
@@ -135,7 +139,7 @@ export function FormularioProjecaoRentabilidade({
                   <FieldLabel>Rentabilidade anual (%)</FieldLabel>
                   <InputGroup>
                     <InputGroupInput
-                      type="number"
+                      type="text"
                       autoComplete="off"
                       placeholder="12%"
                       {...registerWithMask(
