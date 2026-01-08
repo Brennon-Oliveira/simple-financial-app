@@ -5,6 +5,9 @@
   "[typescript][javascript][json][css][javascriptreact][typescriptreact][tailwindcss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

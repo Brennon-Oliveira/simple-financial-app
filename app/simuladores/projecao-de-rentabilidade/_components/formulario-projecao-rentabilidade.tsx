@@ -20,35 +20,30 @@ import {
   FieldLabel,
   FieldSet,
 } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { CurrencyInput, Input, MaskInput } from "@/components/ui/input";
+import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Percent } from "lucide-react";
 import { startTransition } from "react";
-import { useForm } from "react-hook-form";
-import { Options, useHookFormMask } from "use-mask-input";
+import { Controller, useForm } from "react-hook-form";
 
-const CURRENCY_OPTIONS: Options = {
-  prefix: "R$ ",
-  groupSeparator: ".",
-  radixPoint: ",",
-  digitsOptional: true,
-  digits: 2,
-  rightAlign: false,
-};
+// const CURRENCY_OPTIONS: Options = {
+//   prefix: "R$ ",
+//   groupSeparator: ".",
+//   radixPoint: ",",
+//   digitsOptional: true,
+//   digits: 2,
+//   rightAlign: false,
+// };
 
-const NUMERIC_OPTIONS: Options = {
-  rightAlign: false,
-  groupSeparator: ".",
-  radixPoint: ",",
-  digitsOptional: true,
-  digits: 2,
-};
+// const NUMERIC_OPTIONS: Options = {
+//   rightAlign: false,
+//   groupSeparator: ".",
+//   radixPoint: ",",
+//   digitsOptional: true,
+//   digits: 2,
+// };
 
 export function FormularioProjecaoRentabilidade({
   projetar,
@@ -59,16 +54,15 @@ export function FormularioProjecaoRentabilidade({
     register,
     handleSubmit,
     setValue,
+    control,
     reset,
     formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(projetarRentabilidadeSchema),
     mode: "onTouched",
   });
-  const registerWithMask = useHookFormMask(register);
 
   async function handleProjetar(data: ProjetarRentabilidadeSchema) {
-    // console.log(data);
     startTransition(() => {
       projetar(data);
     });
@@ -92,43 +86,51 @@ export function FormularioProjecaoRentabilidade({
               <FieldGroup className="flex flex-row">
                 <Field>
                   <FieldLabel>Montante final desejado</FieldLabel>
-                  <Input
-                    type="text"
-                    autoComplete="off"
-                    placeholder="R$ 20.000,00"
-                    aria-errormessage="123"
-                    {...registerWithMask(
-                      "montanteFinal",
-                      "currency",
-                      CURRENCY_OPTIONS
+                  <Controller
+                    control={control}
+                    name="montanteFinal"
+                    render={({ field: { onChange, name, value, ref } }) => (
+                      <CurrencyInput
+                        onChange={onChange}
+                        value={value}
+                        name={name}
+                        ref={ref}
+                        placeholder="R$ 20.000,00"
+                      />
                     )}
                   />
                   <FieldError>{errors.montanteFinal?.message}</FieldError>
                 </Field>
                 <Field>
                   <FieldLabel>Saldo inicial</FieldLabel>
-                  <Input
-                    type="text"
-                    autoComplete="off"
-                    placeholder="R$ 10.000,00"
-                    {...registerWithMask(
-                      "saldoInicial",
-                      "currency",
-                      CURRENCY_OPTIONS
+                  <Controller
+                    control={control}
+                    name="saldoInicial"
+                    render={({ field: { onChange, name, value, ref } }) => (
+                      <CurrencyInput
+                        onChange={onChange}
+                        value={value}
+                        name={name}
+                        ref={ref}
+                        placeholder="R$ 10.000,00"
+                      />
                     )}
                   />
                   <FieldError>{errors.saldoInicial?.message}</FieldError>
                 </Field>
                 <Field>
                   <FieldLabel>Aportes mensais</FieldLabel>
-                  <Input
-                    type="text"
-                    autoComplete="off"
-                    placeholder="R$ 1.500,00"
-                    {...registerWithMask(
-                      "aportesMensais",
-                      "currency",
-                      CURRENCY_OPTIONS
+                  <Controller
+                    control={control}
+                    name="aportesMensais"
+                    render={({ field: { onChange, name, value, ref } }) => (
+                      <CurrencyInput
+                        onChange={onChange}
+                        value={value}
+                        name={name}
+                        ref={ref}
+                        placeholder="R$ 1.500,00"
+                      />
                     )}
                   />
                   <FieldError>{errors.aportesMensais?.message}</FieldError>
@@ -138,14 +140,23 @@ export function FormularioProjecaoRentabilidade({
                 <Field>
                   <FieldLabel>Rentabilidade anual (%)</FieldLabel>
                   <InputGroup>
-                    <InputGroupInput
-                      type="text"
-                      autoComplete="off"
-                      placeholder="12%"
-                      {...registerWithMask(
-                        "rentabilidadeAnual",
-                        "numeric",
-                        NUMERIC_OPTIONS
+                    <Controller
+                      control={control}
+                      name="rentabilidadeAnual"
+                      render={({ field: { onChange, name, value, ref } }) => (
+                        <MaskInput
+                          mask={Number}
+                          onChange={onChange}
+                          value={value}
+                          name={name}
+                          ref={ref}
+                          className="flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent"
+                          placeholder="12%"
+                          thousandsSeparator="."
+                          radix=","
+                          mapToRadix={["."]}
+                          scale={2}
+                        />
                       )}
                     />
                     <InputGroupAddon align="inline-end">
@@ -162,11 +173,7 @@ export function FormularioProjecaoRentabilidade({
                         type="number"
                         autoComplete="off"
                         placeholder="0"
-                        {...registerWithMask(
-                          "mesesAdicionais",
-                          "numeric",
-                          NUMERIC_OPTIONS
-                        )}
+                        {...register("mesesAdicionais")}
                       />
                       <FieldError>{errors.mesesAdicionais?.message}</FieldError>
                     </Field>
@@ -178,11 +185,7 @@ export function FormularioProjecaoRentabilidade({
                         type="number"
                         autoComplete="off"
                         placeholder="0"
-                        {...registerWithMask(
-                          "anosAdicionais",
-                          "numeric",
-                          NUMERIC_OPTIONS
-                        )}
+                        {...register("anosAdicionais")}
                       />
                       <FieldError>{errors.anosAdicionais?.message}</FieldError>
                     </Field>

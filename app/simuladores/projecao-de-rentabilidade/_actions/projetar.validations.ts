@@ -6,15 +6,15 @@ export const projetarRentabilidadeSchema = z.object({
   montanteFinal: zCurrencyBR(
     "Montante final precisa estar num formato válido",
     "Montante final é obrigatório"
-  ),
+  ).optional(),
   saldoInicial: zCurrencyBR(
     "Saldo inicial precisa estar num formato válido",
     "Saldo inicial é obrigatório"
-  ),
+  ).optional(),
   aportesMensais: zCurrencyBR(
     "Aportes mensais precisa estar num formato válido",
     "Aportes mensais é obrigatório"
-  ),
+  ).optional(),
   rentabilidadeAnual: zPercent(
     "Rentabilidade anual precisa estar num formato válido",
     "Rentabilidade anual é obrigatório"

@@ -18,18 +18,32 @@ type Props = {
 const columns: ColumnDef<ValorMes>[] = [
   {
     id: "Mês",
-    accessorKey: "Mês",
-    cell: ({ row }) => <>Mês {row.original.mes}</>,
+    accessorKey: "mes",
+    cell: ({ row }) => {
+      const ano = row.original.mes / 12;
+      return (
+        <>
+          Mês {row.original.mes}
+          {row.original.mes % 12 === 0 && (
+            <b>
+              {" "}
+              ({ano} ano{ano > 1 && "s"})
+            </b>
+          )}
+        </>
+      );
+    },
     header: ({ header }) => (
-      <DataTableHeader header={header} sortable draggable>
+      <DataTableHeader header={header} draggable>
         {header.id}
       </DataTableHeader>
     ),
     enableResizing: true,
+    enableHiding: false,
   },
   {
     id: "Valor total",
-    accessorKey: "Valor total",
+    accessorKey: "valorTotal",
     cell: ({ row }) => (
       <>
         {row.original.valorTotal.toLocaleString("pt-br", {
@@ -47,7 +61,7 @@ const columns: ColumnDef<ValorMes>[] = [
   },
   {
     id: "Total aportado",
-    accessorKey: "Total aportado",
+    accessorKey: "totalAportado",
     cell: ({ row }) => (
       <>
         {row.original.totalAportado.toLocaleString("pt-br", {
@@ -57,7 +71,7 @@ const columns: ColumnDef<ValorMes>[] = [
       </>
     ),
     header: ({ header }) => (
-      <DataTableHeader header={header} draggable>
+      <DataTableHeader header={header} sortable draggable>
         {header.id}
       </DataTableHeader>
     ),
@@ -65,7 +79,7 @@ const columns: ColumnDef<ValorMes>[] = [
   },
   {
     id: "Total de juros",
-    accessorKey: "Total de juros",
+    accessorKey: "totalDeJuros",
     cell: ({ row }) => (
       <>
         {row.original.totalDeJuros.toLocaleString("pt-br", {
@@ -75,7 +89,7 @@ const columns: ColumnDef<ValorMes>[] = [
       </>
     ),
     header: ({ header }) => (
-      <DataTableHeader header={header} draggable>
+      <DataTableHeader header={header} sortable draggable>
         {header.id}
       </DataTableHeader>
     ),

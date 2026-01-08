@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { compareStrings } from "@/utils/string-compare";
 import {
   closestCenter,
@@ -55,12 +56,13 @@ import {
 } from "@tanstack/react-table";
 import {
   ArrowUpDown,
+  BrushCleaning,
   ChevronDown,
+  ChevronsLeftRight,
   Columns3,
   GripVertical,
   RefreshCcw,
   Search,
-  Trash2,
 } from "lucide-react";
 import {
   CSSProperties,
@@ -124,7 +126,11 @@ function DataTable<TData, TValue>({
   }, []);
 
   const sensors = useSensors(
-    useSensor(MouseSensor, {}),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {})
   );
@@ -296,6 +302,7 @@ function DataTableHeader<TData, TValue>({
   } = useSortable({
     id: header.column.id,
   });
+  const isMobile = useIsMobile();
 
   const style: CSSProperties = {
     opacity: isDragging ? 0.8 : 1,
@@ -330,7 +337,9 @@ function DataTableHeader<TData, TValue>({
           <Button
             size="icon"
             variant="ghost"
-            className="size-7"
+            className={`size-7 ${
+              isDragging ? "cursor-grabbing" : "cursor-grab"
+            }`}
             {...attributes}
             {...listeners}
             aria-label="Arraste para reordenar"
@@ -343,11 +352,7 @@ function DataTableHeader<TData, TValue>({
             <Button
               variant={header.column.getIsSorted() ? "secondary" : "ghost"}
               className="p-0"
-              onClick={() =>
-                header.column.toggleSorting(
-                  header.column.getIsSorted() === "asc"
-                )
-              }
+              onClick={header.column.getToggleSortingHandler()}
             >
               {children}
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -357,7 +362,7 @@ function DataTableHeader<TData, TValue>({
                 variant="outline"
                 onClick={() => header.column.clearSorting()}
               >
-                <Trash2 />
+                <BrushCleaning />
               </Button>
             )}
           </ButtonGroup>
@@ -370,8 +375,10 @@ function DataTableHeader<TData, TValue>({
           onDoubleClick={() => header.column.resetSize()}
           onMouseDown={header.getResizeHandler()}
           onTouchStart={header.getResizeHandler()}
-          className="group-last/head:hidden absolute top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:translate-x-px"
-        />
+          className="group-last/head:hidden absolute items-center top-0 h-full w-4 cursor-col-resize user-select-none touch-none -right-2 z-10 flex justify-center before:absolute before:w-px before:inset-y-0 before:bg-border before:translate-x-px"
+        >
+          {isMobile && <ChevronsLeftRight />}
+        </div>
       )}
     </TableHead>
   );

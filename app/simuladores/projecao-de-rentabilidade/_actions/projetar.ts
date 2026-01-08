@@ -90,30 +90,39 @@ export async function projetar(
 ): Promise<ProjetarState> {
   "use server";
 
+  const normalizedFormData: Required<ProjetarRentabilidadeSchema> = {
+    montanteFinal: formData.montanteFinal || 0,
+    saldoInicial: formData.saldoInicial || 0,
+    aportesMensais: formData.aportesMensais || 0,
+    rentabilidadeAnual: formData.rentabilidadeAnual,
+    mesesAdicionais: formData.mesesAdicionais || 0,
+    anosAdicionais: formData.anosAdicionais || 0,
+  };
+
   const rentabilidadeMensal = calcularRentabilidadeMensal(
-    formData.rentabilidadeAnual / 100
+    normalizedFormData.rentabilidadeAnual / 100
   );
 
-  const mesesAdicionais = formData.anosAdicionais
-    ? formData.anosAdicionais * 12
-    : formData.mesesAdicionais || 0;
+  const mesesAdicionais = normalizedFormData.anosAdicionais
+    ? normalizedFormData.anosAdicionais * 12
+    : normalizedFormData.mesesAdicionais || 0;
 
   const montanteFinal =
-    formData.montanteFinal >= formData.saldoInicial
-      ? formData.montanteFinal
-      : formData.saldoInicial;
+    normalizedFormData.montanteFinal >= normalizedFormData.saldoInicial
+      ? normalizedFormData.montanteFinal
+      : normalizedFormData.saldoInicial;
 
   const quantidadeDeMeses = calcularQuantidadeDeMeses({
     montanteFinalDesejado: montanteFinal,
-    saldoInicial: formData.saldoInicial,
-    aportesMensais: formData.aportesMensais,
+    saldoInicial: normalizedFormData.saldoInicial,
+    aportesMensais: normalizedFormData.aportesMensais,
     rentabilidadeMensal: rentabilidadeMensal,
   });
 
   const valoresPorMes = calcularValoresPorMes({
-    aportesMensais: formData.aportesMensais,
+    aportesMensais: normalizedFormData.aportesMensais,
     rentabilidadeMensal,
-    saldoInicial: formData.saldoInicial,
+    saldoInicial: normalizedFormData.saldoInicial,
     quantidadeDeMeses: quantidadeDeMeses + mesesAdicionais,
   });
 
