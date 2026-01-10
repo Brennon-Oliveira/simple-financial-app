@@ -7,7 +7,7 @@ interface PProps extends ComponentProps<"p"> {
 
 export function P({ children, className, ...props }: PProps) {
   return (
-    <p {...props} className={cn("leading-7 not-first:mt-6", className)}>
+    <p {...props} className={cn("leading-7", className)}>
       {children}
     </p>
   );

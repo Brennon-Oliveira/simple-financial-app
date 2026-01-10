@@ -3,9 +3,9 @@
 import {
   projetar,
   ProjetarState,
-} from "@/app/simuladores/projecao-de-rentabilidade/_actions/projetar";
-import { FormularioProjecaoRentabilidade } from "@/app/simuladores/projecao-de-rentabilidade/_components/formulario-projecao-rentabilidade";
-import { ResultadoProjecaoRentabilidade } from "@/app/simuladores/projecao-de-rentabilidade/_components/resultado-projecao-rentabilidade";
+} from "@/app/(plataform)/simuladores/projecao-de-rentabilidade/_actions/projetar";
+import { FormularioProjecaoRentabilidade } from "@/app/(plataform)/simuladores/projecao-de-rentabilidade/_components/formulario-projecao-rentabilidade";
+import { ResultadoProjecaoRentabilidade } from "@/app/(plataform)/simuladores/projecao-de-rentabilidade/_components/resultado-projecao-rentabilidade";
 import { useActionState } from "react";
 
 const initialState: ProjetarState = {

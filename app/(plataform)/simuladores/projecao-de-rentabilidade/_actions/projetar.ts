@@ -1,6 +1,6 @@
 "use server";
 
-import { ProjetarRentabilidadeSchema } from "@/app/simuladores/projecao-de-rentabilidade/_actions/projetar.validations";
+import { ProjetarRentabilidadeSchema } from "@/app/(plataform)/simuladores/projecao-de-rentabilidade/_actions/projetar.validations";
 
 export type ProjetarState = {
   result: {

@@ -1,6 +1,18 @@
 import * as React from "react";
 
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { Eye, EyeClosed } from "lucide-react";
 import { IMaskInput } from "react-imask";
 
 const INPUT_STYLES = cn(
@@ -66,6 +78,46 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
 );
 CurrencyInput.displayName = "CurrencyInput";
 
+type PasswordInputProps = React.ComponentProps<"input"> & {
+  className?: string;
+  defaultVisibility?: boolean;
+};
+const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
+  ({ className, defaultVisibility, ...props }, ref) => {
+    const [isVisible, setIsVisible] = React.useState<boolean>(
+      defaultVisibility ?? false
+    );
+
+    const visibleText = !isVisible ? "Mostrar senha" : "Esconder senha";
+
+    return (
+      <InputGroup className={cn("", className)}>
+        <InputGroupInput
+          ref={ref}
+          type={!isVisible ? "password" : "text"}
+          {...props}
+        />
+        <InputGroupAddon align="inline-end">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <InputGroupButton
+                size="icon-xs"
+                className="rounded-full"
+                title={visibleText}
+                onClick={() => setIsVisible((current) => !current)}
+              >
+                {!isVisible ? <EyeClosed /> : <Eye />}
+              </InputGroupButton>
+            </TooltipTrigger>
+            <TooltipContent>{visibleText}</TooltipContent>
+          </Tooltip>
+        </InputGroupAddon>
+      </InputGroup>
+    );
+  }
+);
+PasswordInput.displayName = "PasswordInput";
+
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <input
@@ -77,4 +129,4 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   );
 }
 
-export { CurrencyInput, Input, MaskInput };
+export { CurrencyInput, Input, MaskInput, PasswordInput };

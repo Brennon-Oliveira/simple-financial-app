@@ -3,7 +3,7 @@
 import {
   projetarRentabilidadeSchema,
   ProjetarRentabilidadeSchema,
-} from "@/app/simuladores/projecao-de-rentabilidade/_actions/projetar.validations";
+} from "@/app/(plataform)/simuladores/projecao-de-rentabilidade/_actions/projetar.validations";
 import { Button } from "@/components/ui/button";
 import {
   Card,

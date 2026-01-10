@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  output   = "../prisma/generated"
 }
 
 datasource db {
@@ -46,8 +46,10 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
+  username      String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
+  password      String?
   image         String?
   accounts      Account[]
   sessions      Session[]

@@ -42,6 +42,7 @@ import {
   User2,
   Wallet,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -80,6 +81,11 @@ export function AppSidebar() {
       icon: HandCoins,
     },
   ];
+
+  const { data: session } = useSession();
+  if (!session) {
+    return <></>;
+  }
 
   function AppSidebarItem({ item }: { item: MenuItem }) {
     const route = getRoute(item.route);
@@ -209,7 +215,7 @@ export function AppSidebar() {
                 <DropdownMenuItem>
                   <span>Configurações</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>
                   <span>Sair</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
