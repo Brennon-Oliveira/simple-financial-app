@@ -1,6 +1,7 @@
 import { AppHeader } from "@/components/ui/app-header";
 import { AppSidebar } from "@/components/ui/app-siderbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { AuthProvider } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -41,15 +42,17 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SidebarProvider className="h-full">
-            <AppSidebar />
-            <main className="w-full flex flex-col bg-background h-full">
-              <AppHeader />
-              <section className="flex-1 overflow-auto px-3 py-2">
-                {children}
-              </section>
-            </main>
-          </SidebarProvider>
+          <AuthProvider>
+            <SidebarProvider className="h-full">
+              <AppSidebar />
+              <main className="w-full flex flex-col bg-background h-full">
+                <AppHeader />
+                <section className="flex-1 overflow-auto px-3 py-2">
+                  {children}
+                </section>
+              </main>
+            </SidebarProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
