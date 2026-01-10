@@ -40,20 +40,21 @@ MaskInput.displayName = "MaskInput";
 const CurrencyInput = React.forwardRef<HTMLInputElement, MaskInputProps>(
   (props, ref) => {
     return (
-      // @ts-expect-error - Erro avulso de tipo da mascara
       <MaskInput
         mask="R$ num"
         inputRef={ref}
         blocks={{
+          // @ts-expect-error - Erro avulso de tipo da mascara
           num: {
             mask: Number,
             thousandsSeparator: ".",
             radix: ",",
-            mapToRadix: ["."],
+            mapToRadix: [","],
             scale: 2,
             padFractionalZeros: true,
             normalizeZeros: true,
             min: 0,
+            format: (value: string) => value.replace(/[.]/g, ""),
           },
         }}
         lazy={true}
