@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: AuthOptions = {
   secret: env.NEXTAUTH_SECRET,
@@ -79,6 +80,11 @@ export const authOptions: AuthOptions = {
       from: env.SMTP_FROM_EMAIL,
       maxAge: 15 * 60,
       sendVerificationRequest,
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      name: "Google",
     }),
   ],
 };

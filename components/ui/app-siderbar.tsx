@@ -30,7 +30,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Routes } from "@/utils/routes";
+import { MenuItem } from "@/types/menu-item";
 import { getRoute } from "@/utils/routes-tools";
 import {
   ChartNoAxesCombined,
@@ -38,7 +38,6 @@ import {
   HandCoins,
   Handshake,
   Home,
-  LucideIcon,
   User2,
   Wallet,
 } from "lucide-react";
@@ -46,11 +45,6 @@ import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-type MenuItem = {
-  route: Routes;
-  icon: LucideIcon;
-};
 
 export function AppSidebar() {
   const { open } = useSidebar();
@@ -212,8 +206,15 @@ export function AppSidebar() {
                     </DropdownMenuSubContent>
                   </DropdownMenuPortal>
                 </DropdownMenuSub>
-                <DropdownMenuItem>
-                  <span>Configurações</span>
+                <DropdownMenuItem asChild>
+                  <Link
+                    prefetch="auto"
+                    data-active={pathname === "/configuracoes"}
+                    href="/configuracoes"
+                  >
+                    <LoadingIndicator />
+                    <span>Configurações</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>
                   <span>Sair</span>

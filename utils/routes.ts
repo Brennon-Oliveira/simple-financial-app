@@ -3,7 +3,9 @@ export type Routes =
   | "meus-orcamentos"
   | "dashboard-investimentos"
   | "meus-aportes"
-  | "projecao-rentabilidade";
+  | "projecao-rentabilidade"
+  | "dados-gerais"
+  | "seguranca";
 
 export type RouteData = {
   title: string;
@@ -45,6 +47,20 @@ export const routes = {
     path: "/simuladores/projecao-de-rentabilidade",
     createPath: () => {
       return "/simuladores/projecao-de-rentabilidade";
+    },
+  },
+  "dados-gerais": {
+    title: "Dados gerais",
+    path: "/configuracoes",
+    createPath: () => {
+      return "/configuracoes/dados-gerais";
+    },
+  },
+  seguranca: {
+    title: "Segurança",
+    path: "/configuracoes/seguranca",
+    createPath: () => {
+      return "/configuracoes/seguranca";
     },
   },
 } as const;

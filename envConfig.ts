@@ -17,6 +17,9 @@ const envSchema = z.object({
   SMTP_PASSWORD: z.string(),
   SMTP_FROM_EMAIL: z.string(),
 
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
+
   NEXTAUTH_SECRET: z.string(),
 });
 
